@@ -42,7 +42,9 @@ app.post("/book", async (req, res) => {
     const availableSeats = result.rows;
 
     if (availableSeats.length < count) {
-      return res.status(400).json({error: "Not enough available seats."});
+      return res.status(400).json({
+        error: `Booking failed, Only ${availableSeats.length} seats available to book.`,
+      });
     }
 
     //Group seats by row
@@ -75,6 +77,7 @@ app.post("/book", async (req, res) => {
             success: true,
             bookedSeats: chunk.map((s) => s.id),
             inSameRow: true,
+            successMessage: "Seat successfully booked.",
           });
         }
       }
@@ -91,6 +94,7 @@ app.post("/book", async (req, res) => {
       bookedSeats: fallbackSeats.map((s) => s.id),
       inSameRow: false,
       fallback: true,
+      successMessage: "Seat successfully booked.",
     });
   } catch (err) {
     console.error("Booking error:", err.message);
