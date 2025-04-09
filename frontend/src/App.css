@@ -5,41 +5,121 @@
   text-align: center;
 }
 
+body {
+  background-color: #e4e4e4;
+  color: black;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 300px;
+}
+
 .App {
   text-align: center;
+  flex: 1;
+}
+
+h3 {
+  margin: 0 0 5px 0;
 }
 
 .seat-container {
   display: grid;
   grid-template-columns: repeat(7, 40px);
-  gap: 10px;
   justify-content: center;
-  margin: 20px;
+  row-gap: 12px;
+  column-gap: 6px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 8px;
 }
 
 .seat {
-  padding: 10px;
-  border-radius: 6px;
-  background-color: green;
-  color: white;
+  border-radius: 8px;
+  background-color: rgb(26, 156, 26);
+  color: black;
 }
 
-.seat.booked {
-  background-color: rgb(193, 154, 0);
+.seat.booked,
+.booked {
+  background-color: rgb(231, 209, 11);
+}
+
+.bookedSeats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bookedSeatNumbers {
+  flex: 1;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.bookedSeatNumbers > div {
+  width: 40px;
+  height: 24px;
+}
+
+.info {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.info .seat {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 2px;
 }
 
 .controls {
-  margin-top: 20px;
+  flex: 1;
+}
+
+.controls p {
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.inputFldAndBookBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.inputFldAndBookBtn button {
+  width: 30%;
 }
 
 input {
+  flex: 1;
   padding: 8px;
-  margin-right: 10px;
+  border: 1px solid rgb(71, 130, 255);
+  border-radius: 5px;
 }
 
 button {
-  padding: 8px 12px;
-  margin: 0 5px;
+  padding: 5px 30px;
+  margin: 0;
+  border-radius: 5px;
+  background-color: rgb(71, 130, 255);
+  color: white;
+}
+
+.resetBtn {
+  width: 100%;
+  margin-top: 10px;
 }
 
 .error {
@@ -56,4 +136,27 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Remove number input arrows - Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    gap: 200px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    gap: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .controls {
+    width: 100%;
+  }
 }

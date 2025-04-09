@@ -9,12 +9,12 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// ✅ Health check
+//Health check
 app.get("/", (req, res) => {
   res.send("Backend is up and running! 🚆");
 });
 
-// ✅ Get all seats
+//Get all seats
 app.get("/seats", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM seats ORDER BY id ASC");
@@ -25,7 +25,7 @@ app.get("/seats", async (req, res) => {
   }
 });
 
-// ✅ Book seats (smart booking: same row > nearby)
+//Book seats (smart booking: same row > nearby)
 app.post("/book", async (req, res) => {
   const {count} = req.body;
 
@@ -45,15 +45,15 @@ app.post("/book", async (req, res) => {
       return res.status(400).json({error: "Not enough available seats."});
     }
 
-    // Group seats by row
+    //Group seats by row
     const rows = {};
     availableSeats.forEach((seat) => {
-      const row = seat.id <= 70 ? Math.ceil(seat.id / 7) : 11; // Last row = 71–73
+      const row = seat.id <= 70 ? Math.ceil(seat.id / 7) : 11; //Last row = 71–73
       if (!rows[row]) rows[row] = [];
       rows[row].push(seat);
     });
 
-    // Priority: Book seats in same row
+    //Priority: Book seats in same row
     for (let row in rows) {
       const rowSeats = rows[row];
 
@@ -64,7 +64,7 @@ app.post("/book", async (req, res) => {
         );
 
         if (isConsecutive) {
-          // Book these seats
+          //Book these seats
           for (let s of chunk) {
             await pool.query("UPDATE seats SET booked = true WHERE id = $1", [
               s.id,
@@ -80,7 +80,7 @@ app.post("/book", async (req, res) => {
       }
     }
 
-    // Fallback: Book nearest available seats
+    //Fallback: Book nearest available seats
     const fallbackSeats = availableSeats.slice(0, count);
     for (let s of fallbackSeats) {
       await pool.query("UPDATE seats SET booked = true WHERE id = $1", [s.id]);
@@ -98,7 +98,7 @@ app.post("/book", async (req, res) => {
   }
 });
 
-// ✅ Reset all seats (admin/dev tool)
+//Reset all seats (admin/dev tool)
 app.post("/reset", async (req, res) => {
   try {
     await pool.query("UPDATE seats SET booked = false");
@@ -109,7 +109,7 @@ app.post("/reset", async (req, res) => {
   }
 });
 
-// ✅ Start server
+//Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
