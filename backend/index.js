@@ -11,7 +11,7 @@ app.use(express.json());
 
 //Health check
 app.get("/", (req, res) => {
-  res.send("Backend is up and running! 🚆");
+  res.send("Backend is up and running!");
 });
 
 //Get all seats
@@ -77,7 +77,6 @@ app.post("/book", async (req, res) => {
             success: true,
             bookedSeats: chunk.map((s) => s.id),
             inSameRow: true,
-            successMessage: "Seat successfully booked.",
           });
         }
       }
@@ -94,10 +93,8 @@ app.post("/book", async (req, res) => {
       bookedSeats: fallbackSeats.map((s) => s.id),
       inSameRow: false,
       fallback: true,
-      successMessage: "Seat successfully booked.",
     });
   } catch (err) {
-    console.error("Booking error:", err.message);
     res.status(500).json({error: "Server error during booking."});
   }
 });
@@ -108,12 +105,11 @@ app.post("/reset", async (req, res) => {
     await pool.query("UPDATE seats SET booked = false");
     res.json({success: true, message: "All seats have been reset."});
   } catch (err) {
-    console.error("Reset error:", err.message);
     res.status(500).json({error: "Failed to reset seats."});
   }
 });
 
 //Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

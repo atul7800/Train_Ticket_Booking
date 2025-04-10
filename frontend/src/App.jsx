@@ -8,14 +8,13 @@ function App() {
   const [seats, setSeats] = useState([]);
   const [count, setCount] = useState("");
   const [bookedSeats, setBookedSeats] = useState([]);
-  const [message, setMessage] = useState({});
 
   const fetchSeats = async () => {
     try {
       const res = await axios.get("http://localhost:5000/seats");
       setSeats(res.data);
     } catch (err) {
-      setMessage({msgType: "error", msgBody: "Failed to load seats."});
+      toast.error("Failed to load seats.");
     }
   };
 
@@ -23,16 +22,9 @@ function App() {
     fetchSeats();
   }, []);
 
-  useEffect(() => {
-    console.log("Message : ", message);
-  }, [message]);
-
   const handleBook = async () => {
     if (!count || count < 1 || count > 7) {
-      setMessage({
-        msgType: "error",
-        msgBody: "You can only book 1 to 7 seats.",
-      });
+      toast.error("You can book between 1 to 7 seats only.");
       return;
     }
 
@@ -41,24 +33,15 @@ function App() {
         count: parseInt(count),
       });
 
-      console.log("Response: ", res.data);
-
       const {bookedSeats} = res.data;
 
       setBookedSeats(bookedSeats);
-      setMessage({msgType: "success", msgBody: res.data.successMessage});
       setCount("");
       fetchSeats();
-      message.msgType === "success"
-        ? toast.success(message.msgBody)
-        : toast.error(message.msgBody);
+      toast.success("Seat successfully booked.");
     } catch (err) {
       setBookedSeats([]);
-      setMessage({
-        msgType: "error",
-        msgBody: err.response.data.error,
-      });
-      toast.error(message.msgBody);
+      toast.error(err.response.data.error);
     }
   };
 
@@ -66,7 +49,6 @@ function App() {
     await axios.post("http://localhost:5000/reset");
     fetchSeats();
     setBookedSeats([]);
-    setMessage({});
   };
 
   return (
