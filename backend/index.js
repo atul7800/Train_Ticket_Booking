@@ -14,6 +14,10 @@ app.use(express.json());
 app.use("/api", seatRoutes);
 app.use("/api", authRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Server is up and running!");
+});
+
 app.listen(PORT, () => {
-  console.log(`🚀 Backend API is running on port ${PORT}`);
+  console.log(`Backend API is running on port ${PORT}`);
 });
