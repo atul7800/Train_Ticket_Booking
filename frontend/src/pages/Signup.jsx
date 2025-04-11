@@ -12,10 +12,13 @@ export default function Signup() {
 
   const handleSignup = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/signup", {
-        username,
-        password,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/signup`,
+        {
+          username,
+          password,
+        }
+      );
       setSuccess(res.data.message);
       setError("");
       setTimeout(() => navigate("/login"), 1500);

@@ -14,7 +14,9 @@ export default function Booking() {
 
   const fetchSeats = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/seats");
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/seats`
+      );
       setSeats(res.data);
     } catch (err) {
       toast.error("Failed to load seats.");
@@ -39,7 +41,7 @@ export default function Booking() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/book",
+        `${import.meta.env.VITE_BACKEND_URL}/api/book`,
         {
           count: parseInt(count),
         },
@@ -59,7 +61,7 @@ export default function Booking() {
   };
 
   const resetSeats = async () => {
-    await axios.post("http://localhost:5000/api/reset");
+    await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/reset`);
     fetchSeats();
     setBookedSeats([]);
   };

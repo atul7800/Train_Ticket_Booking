@@ -12,10 +12,13 @@ export default function Login() {
 
   const login = async () => {
     try {
-      const result = await axios.post("http://localhost:5000/api/login", {
-        username,
-        password,
-      });
+      const result = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/login`,
+        {
+          username,
+          password,
+        }
+      );
       localStorage.setItem("token", result.data.token);
       toast.success("Logged in successfully");
       setTimeout(() => (window.location.href = "/book"), 1000);
