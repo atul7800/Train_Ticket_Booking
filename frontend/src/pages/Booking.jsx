@@ -2,12 +2,15 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Toaster} from "react-hot-toast";
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 import "./styles/Booking.css";
 
 export default function Booking() {
   const [seats, setSeats] = useState([]);
   const [count, setCount] = useState("");
   const [bookedSeats, setBookedSeats] = useState([]);
+
+  const navigate = useNavigate();
 
   const fetchSeats = async () => {
     try {
@@ -21,6 +24,12 @@ export default function Booking() {
   useEffect(() => {
     fetchSeats();
   }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully");
+    window.location.href = "/book";
+  };
 
   const handleBook = async () => {
     if (!count || count < 1 || count > 7) {
@@ -112,6 +121,9 @@ export default function Booking() {
 
           <button className="resetBtn" onClick={resetSeats}>
             Reset
+          </button>
+          <button className="logoutBtn" onClick={logout}>
+            Logout
           </button>
         </div>
       </div>

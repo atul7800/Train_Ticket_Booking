@@ -18,7 +18,7 @@ export default function Login() {
       });
       localStorage.setItem("token", result.data.token);
       toast.success("Logged in successfully");
-      setTimeout(() => (window.location.href = "/book"), 1500);
+      setTimeout(() => (window.location.href = "/book"), 1000);
     } catch (error) {
       console.log("ERROR Login page : ", error);
       toast.error("Unable to login");
