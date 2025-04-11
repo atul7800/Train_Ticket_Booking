@@ -15,5 +15,5 @@ app.use("/api", seatRoutes);
 app.use("/api", authRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Backend API running at http://localhost:${PORT}`);
+  console.log(`🚀 Backend API is running on port ${PORT}`);
 });
